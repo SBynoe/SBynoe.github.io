@@ -1,7 +1,7 @@
 import React from 'react'
 import profilepic from '../assets/profilepicMain.png'
 import {AiFillLinkedin, AiFillGithub, AiFillInstagram} from 'react-icons/ai'
-import { SocialIcon } from 'react-social-icons'
+// import { SocialIcon } from 'react-social-icons'
 import {TypeAnimation} from 'react-type-animation'
 
 const Hero = () => {
@@ -47,7 +47,7 @@ const Hero = () => {
                         
                         from-[#ff7a7a] via-[#ffbe44] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-70 group-hover:-inset-1 group-hover:duration-200">
                         </div>
-                        <a href='../public/2024_Resume.pdf' title='Download Resume' role='button' download="Resume"
+                        <a href='../2024_Resume.pdf' title='Download Resume' role='button' download="Resume"
                             class="w-[190px] h-[60px] relative inline-flex items-center justify-center px-8 py-4 text-lg
                                 font-bold text-white transition-all duration-200 bg-primary-color font-pj rounded-xl
                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">Download Resume

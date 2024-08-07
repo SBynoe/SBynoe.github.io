@@ -9,24 +9,27 @@ const Navbar = () => {
     }
 
   return (
-    <div className='z-10 text-gray-500 flex justify-between items-center max-w-[1240px] mx-auto h-24 px-4 text-l'>
+    <div className=' z-10 text-gray-500 flex justify-between items-center max-w-[1240px] mx-auto h-24 px-4 text-l'>
 
-        <h1 className='text-3xl font-bold primary-color ml-4'>S. BYNOE</h1>
+        <h1 className='text-3xl font-bold primary-color ml-4' id='#Home'>S. BYNOE</h1>
         <ul className='hidden md:flex'>
             <li className='p-2'>
-                <a href=''>Home</a>
+                <a href='/'>Home</a>
             </li>
             <li className='p-2'>
-                <a href='#Projects'>Projects</a>
+                <a href='/#Projects'>Projects</a>
             </li>
             <li className='p-2'>
-                <a href='#Experience'>Experience</a>
+                <a href='/#Experience'>Experience</a>
             </li>
             <li className='p-2'>
-                <a href='#About'>About</a>
+                <a href='/#About'>About</a>
             </li>
             <li className='p-2'>
-                <a href='#Contact'>Contact</a>
+                <a href='/#Contact'>Contact</a>
+            </li>
+            <li className='p-2'>
+                <a href='/#Music'>Music</a>
             </li>
         </ul>
 
@@ -40,19 +43,22 @@ const Navbar = () => {
             <h1 className='text-3xl primary-color m-4'>J. DOE</h1>
             <ul className='p-8 text-2xl'>
                 <li className='p-2'>
-                    <a href=''>Home</a>
+                    <a href='/#Home'>Home</a>
                 </li>
                 <li className='p-2'>
-                    <a href='#Projects'>Projects</a>
+                    <a href='/#Projects'>Projects</a>
                 </li>
                 <li className='p-2'>
-                    <a href='#Experience'>Experience</a>
+                    <a href='/#Experience'>Experience</a>
                 </li>
                 <li className='p-2'>
-                    <a href='#About'>About</a>
+                    <a href='/#About'>About</a>
                     </li>
                 <li className='p-2'>
-                    <a href='#Contact'>Contact</a>
+                    <a href='/#Contact'>Contact</a>
+                </li>
+                <li className='p-2'>
+                    <a href='/#Music'>Music</a>
                 </li>
             </ul>
         </div>

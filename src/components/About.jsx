@@ -30,24 +30,24 @@ const About = () => {
 
                 <div className='flex mt-10 items-center gap-7'>
                     <div className='bg-[#333333]/40 p-5 rounded-lg'>
-                        <h3 className='md:text-4xl text-2xl font-semibold text-white'>11
+                        <h3 className='md:text-4xl text-2xl font-semibold text-white'>5
                             <span>+</span>
                         </h3>
                         <p><span className='md:text-base text-xs'>Projects</span></p>
                     </div>
 
                     <div className='bg-[#333333]/40 p-5 rounded-lg'>
-                        <h3 className='md:text-4xl text-2xl font-semibold text-white'>11
+                        <h3 className='md:text-4xl text-2xl font-semibold text-white'>3
                             <span>+</span>
                         </h3>
-                        <p><span className='md:text-base text-xs'>Projects</span></p>
+                        <p><span className='md:text-base text-xs'>Years of Experience</span></p>
                     </div>
 
                     <div className='bg-[#333333]/40 p-5 rounded-lg'>
-                        <h3 className='md:text-4xl text-2xl font-semibold text-white'>11
+                        <h3 className='md:text-4xl text-2xl font-semibold text-white'>15
                             <span>+</span>
                         </h3>
-                        <p><span className='md:text-base text-xs'>Projects</span></p>
+                        <p><span className='md:text-base text-xs'>Song Showcases</span></p>
                     </div>
                 </div>
             </div>

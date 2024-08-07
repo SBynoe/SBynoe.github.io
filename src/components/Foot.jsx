@@ -4,7 +4,7 @@ import { FaGithubSquare,FaInstagram, FaLinkedin, FaMailchimp} from 'react-icons/
 const Foot = () => {
   return (
     <div className='mt-12 w-max-[800px] border-t border-gray-500 text-center'>
-        <p className='my-5 text-gray-500'>176 Sams Drive <br/> Fayetteville, GA, 30214</p>
+        <p className='my-5 text-gray-500'>33 Gilmer St SE<br/>  Atlanta, GA 30303</p>
 
         <div className='inline-flex text-gray-500 gap-4 text-3xl'>
           
