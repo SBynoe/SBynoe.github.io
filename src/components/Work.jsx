@@ -29,7 +29,7 @@ const Work = () => {
             <img src={proj4} alt='' className='inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-105' />
           </a>
 
-          <a href='/' className='group h-48 overflow-hidden rounded-lg shadow-lg md:col-span-2 md:h-80'>
+          <a href='https://github.com/AinzOolGown/projectPuzzle' className='group h-48 overflow-hidden rounded-lg shadow-lg md:col-span-2 md:h-80'>
             <img src={proj3} alt='' className='inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-105' />
           </a>
 

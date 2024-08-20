@@ -5,7 +5,7 @@ import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Work from "../components/Work";
 import Foot from "../components/Foot";
-import Testing from "../components/Testing";
+import Showcase from "../components/Showcase";
 import Cursor from "../components/Cursor";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
       <Navbar/>
       <Hero/>
       <About/>
-      <Testing/>
+      <Showcase/>
       <Work/>
       <Experience/>
       <Contact/>

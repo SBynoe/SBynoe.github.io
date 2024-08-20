@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import * as THREE from 'three';
 import { createNoise3D } from 'simplex-noise';
 
-//songs
+//Slider
 const songs = [
   { title: 'Dance', src: '../songs/DANCE222.wav' },
   { title: 'Brent X Cole', src: '../songs/Brent X Cole.wav' },
@@ -12,6 +12,10 @@ const songs = [
   { title: 'Never Gets Better', src: '../songs/NEVERGETSBETTER.wav' },
   { title: 'NYC', src: '../songs/nyc.wav' },
 ];
+
+
+//Visualizer
+let audioContext = null;
 
 const AudioVisualizer = () => {
   const containerRef = useRef(null);
@@ -26,25 +30,30 @@ const AudioVisualizer = () => {
   const [animationId, setAnimationId] = useState(null);
   const [sceneInitialized, setSceneInitialized] = useState(false);
 
-  const noise = createNoise3D();
+  const noise = useMemo(() => createNoise3D(), []);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const init = () => {
-      console.log('Initializing Audio Context and THREE.js...');
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      setContext(audioContext);
+      if (!isInitialized) {
+        console.log('Initializing Audio Context and THREE.js...');
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        setContext(audioContext);
 
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(0, 0, 100);
-      camera.lookAt(scene.position);
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 100);
+        camera.lookAt(scene.position);
 
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-      setRenderer(renderer);
-      setScene(scene);
-      setCamera(camera);
+        setRenderer(renderer);
+        setScene(scene);
+        setCamera(camera);
+
+        setIsInitialized(true);
+    }
     };
 
     init();
@@ -57,9 +66,10 @@ const AudioVisualizer = () => {
       }
       if (renderer) {
         renderer.dispose();
+        setRenderer(null);      
       }
     };
-  }, []);
+  }, [animationId, isInitialized]);
 
   useEffect(() => {
     if (context && analyser) {
@@ -69,22 +79,42 @@ const AudioVisualizer = () => {
     }
   }, [context, analyser]);
 
-  const handleResize = () => {
+  useEffect(() => {
+    console.log('scene is', !!scene);
+    console.log('camera is', !!camera);
+    console.log('renderer is', !!renderer);
+    console.log('analyser is', !!analyser);
+    console.log('dataArray is', !!dataArray);
+    console.log('sceneInitialized is', !!sceneInitialized);
+    console.log('END OF LOG');
+    console.log(' ');
+
+    if (scene && camera && renderer && analyser && dataArray && !sceneInitialized) {
+      setupScene();
+      setSceneInitialized(true);
+    }
+  }, [scene, camera, renderer, analyser, dataArray, sceneInitialized]);
+
+  const handleResize = useCallback(() => {
     if (camera && renderer) {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     }
-  };
+  }, [camera, renderer]);
 
-  const startAudioContext = () => {
+  const startAudioContext = useCallback(() => {
     if (context && context.state === 'suspended') {
       context.resume().catch(err => console.error('Error resuming AudioContext:', err));
     }
-  };
+  }, [context]);
 
-  const handlePlayClick = (index) => {
+  const handlePlayClick = useCallback((index) => {
     console.log('Play button clicked');
+    // sceneInitialized = true;
+    resetScene();
+
+    setRenderer(renderer);
 
     startAudioContext();
 
@@ -92,12 +122,14 @@ const AudioVisualizer = () => {
     if (context && audioElement) {
       if (analyser) {
         analyser.disconnect();
+        resetScene();
+
       }
 
       if (audio !== audioElement) {
-        // If a new audio element is selected, stop the previous one
         if (audio) {
-          audio.pause();
+
+          handlePauseClick();          
         }
         setAudio(audioElement);
       }
@@ -108,31 +140,29 @@ const AudioVisualizer = () => {
       newAnalyser.connect(context.destination);
 
       setAnalyser(newAnalyser);
+
       audioElement.currentTime = 0;
       audioElement.play();
 
-      if (!sceneInitialized) {
-        setupScene();
-        setSceneInitialized(true);
-      }
     }
-  };
+  }, [context, audio, analyser, startAudioContext]);
 
-  const handlePauseClick = () => {
+  const handlePauseClick = useCallback(() => {
     console.log('Pause button clicked');
     if (audio) {
       audio.pause();
-      resetScene();
       setSceneInitialized(false);
     }
-  };
+  }, [audio]);
 
   const setupScene = () => {
+
     if (scene && camera && renderer && analyser && dataArray) {
       console.log('Setting up scene');
       const group = new THREE.Group();
 
-      const planeGeometry = new THREE.PlaneGeometry(800, 800, 20, 20);
+      const planeGeometry = new THREE.PlaneGeometry(800, 800, 50, 50); // Increased segments for more vertices
+
       const planeMaterial = new THREE.MeshLambertMaterial({
         color: 0x60002F,
         side: THREE.DoubleSide,
@@ -147,7 +177,7 @@ const AudioVisualizer = () => {
       plane2.position.set(0, -30, 0);
       group.add(plane2);
 
-      const icosahedronGeometry = new THREE.IcosahedronGeometry(10, 3);
+      const icosahedronGeometry = new THREE.IcosahedronGeometry(15, 6); // Reduced segments
       const lambertMaterial = new THREE.MeshLambertMaterial({
         color: 0xFF9900,
         wireframe: true
@@ -175,6 +205,7 @@ const AudioVisualizer = () => {
       }
 
       const render = () => {
+        console.log('Rendering frame...'); // Debug line
         analyser.getByteFrequencyData(dataArray);
 
         const lowerHalfArray = dataArray.slice(0, dataArray.length / 2 - 1);
@@ -206,35 +237,57 @@ const AudioVisualizer = () => {
   const makeRoughBall = (mesh, bassFr, treFr) => {
     const positionAttribute = mesh.geometry.getAttribute('position');
     const vertex = new THREE.Vector3();
+
     for (let i = 0; i < positionAttribute.count; i++) {
-      vertex.fromBufferAttribute(positionAttribute, i);
-      const offset = mesh.geometry.parameters.radius;
-      const amp = 5;
-      const time = window.performance.now();
-      vertex.normalize();
-      const rf = 0.00001;
-      const distance = (offset + bassFr) + noise(vertex.x + time * rf * 5, vertex.y + time * rf * 6, vertex.z + time * rf * 7) * amp * treFr;
-      vertex.multiplyScalar(distance);
-      positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+        vertex.fromBufferAttribute(positionAttribute, i);
+
+        const offset = mesh.geometry.parameters.radius;
+        const amp = 5;
+        const time = window.performance.now();
+        vertex.normalize();
+        const rf = 0.00001;
+
+        const distance = (offset + bassFr) + noise(vertex.x + time * rf * 5, vertex.y + time * rf * 6, vertex.z + time * rf * 7) * amp * treFr;
+
+        if (!isNaN(distance)) {
+            vertex.multiplyScalar(distance);
+            positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+        }
     }
+
     positionAttribute.needsUpdate = true;
   };
 
   const makeRoughGround = (mesh, distortionFr) => {
     const positionAttribute = mesh.geometry.getAttribute('position');
     const vertex = new THREE.Vector3();
-    for (let i = 0; i < positionAttribute.count; i++) {
-      vertex.fromBufferAttribute(positionAttribute, i);
-      const amp = 2;
-      const time = Date.now();
-      const distance = (noise(vertex.x + time * 0.0003, vertex.y + time * 0.0001) + 0) * distortionFr * amp;
-      vertex.z = distance;
-      positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
-    }
-    positionAttribute.needsUpdate = true;
-  };
 
-  const resetScene = () => {
+    for (let i = 0; i < positionAttribute.count; i++) {
+        vertex.fromBufferAttribute(positionAttribute, i);
+        const amp = 2;
+        // const time = Date.now();
+        const time = window.performance.now();
+        vertex.normalize();
+        const rf = 0.00001;
+
+
+        const distance = (noise(vertex.x + time * 0.0003, vertex.y + time * 0.0001) + 0) * distortionFr * amp;
+        // console.log('distance = ' + distance);
+
+        if (!isNaN(distance)) {
+            // vertex.z = distance;
+            vertex.multiplyScalar(distance);
+
+            positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+        }
+    }
+
+    positionAttribute.needsUpdate = true;
+};
+
+  
+
+  const resetScene = useCallback(() => {
     console.log('Resetting scene');
     if (scene) {
       while (scene.children.length > 0) {
@@ -251,18 +304,17 @@ const AudioVisualizer = () => {
       cancelAnimationFrame(animationId);
       setAnimationId(null);
     }
-    
-  };
+  }, [scene, renderer, animationId]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     console.log('Next button clicked');
     setActiveIndex((prevIndex) => (prevIndex + 1) % songs.length);
-  };
+  }, [songs.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     console.log('Previous button clicked');
     setActiveIndex((prevIndex) => (prevIndex - 1 + songs.length) % songs.length);
-  };
+  }, [songs.length]);
 
   const getItemStyle = (index) => {
     const baseStyle = {
