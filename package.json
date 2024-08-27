@@ -1,7 +1,7 @@
 {
   "name": "portfolio",
   "version": "0.1.0",
-  "homepage": "https://Sbynoe.github.io",
+  "homepage": "https://Sbynoe.github.io/portfolio",
   "private": true,
   "dependencies": {
     "@cursorify/react": "^0.0.39",

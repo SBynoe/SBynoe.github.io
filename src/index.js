@@ -7,7 +7,7 @@ import MainResearch from './pages/Research';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/portfolio">
       <Routes>
         <Route path="/" element={<MainApp />} />
         <Route path="/research" element={<MainResearch />} />
