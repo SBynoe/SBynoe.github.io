@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.bc8eafeb.css",
-    "main.js": "/static/js/main.d551dafa.js",
-    "static/media/ai-music.jpg": "/static/media/ai-music.53622e5cbce86ea918e7.jpg",
-    "static/media/real-estate.jpg": "/static/media/real-estate.2f8f37acc7fbb621d0c3.jpg",
-    "static/media/puzzle.jpg": "/static/media/puzzle.62a0732fdbf44af554a3.jpg",
-    "static/media/study.jpg": "/static/media/study.8d1bcb5e571e98d8356a.jpg",
-    "static/media/profilepicMain.png": "/static/media/profilepicMain.afb1176d47aef59e430e.png",
-    "static/media/sydBass.png": "/static/media/sydBass.bf426be7f77c3b74b827.png",
-    "index.html": "/index.html",
-    "main.bc8eafeb.css.map": "/static/css/main.bc8eafeb.css.map",
-    "main.d551dafa.js.map": "/static/js/main.d551dafa.js.map"
+    "main.css": "/portfolio/static/css/main.bc8eafeb.css",
+    "main.js": "/portfolio/static/js/main.907031b8.js",
+    "static/media/ai-music.jpg": "/portfolio/static/media/ai-music.53622e5cbce86ea918e7.jpg",
+    "static/media/real-estate.jpg": "/portfolio/static/media/real-estate.2f8f37acc7fbb621d0c3.jpg",
+    "static/media/puzzle.jpg": "/portfolio/static/media/puzzle.62a0732fdbf44af554a3.jpg",
+    "static/media/study.jpg": "/portfolio/static/media/study.8d1bcb5e571e98d8356a.jpg",
+    "static/media/profilepicMain.png": "/portfolio/static/media/profilepicMain.afb1176d47aef59e430e.png",
+    "static/media/sydBass.png": "/portfolio/static/media/sydBass.bf426be7f77c3b74b827.png",
+    "index.html": "/portfolio/index.html",
+    "main.bc8eafeb.css.map": "/portfolio/static/css/main.bc8eafeb.css.map",
+    "main.907031b8.js.map": "/portfolio/static/js/main.907031b8.js.map"
   },
   "entrypoints": [
     "static/css/main.bc8eafeb.css",
-    "static/js/main.d551dafa.js"
+    "static/js/main.907031b8.js"
   ]
 }
